@@ -1,18 +1,9 @@
-# Pull base image
-FROM node:latest
+#Pull base image
+FROM dsoukhov/golang-radanalytics.ci
 
-RUN apt-get update && apt-get install -y rsync bzip2
+#install nodejs and npm
+#nodejs-legacy is required for sym link to node
+RUN apt-get install -y nodejs-legacy npm
 
-# Global install bower
-RUN npm set progress=false && \
-	npm install -g grunt bower
-	echo '{ "allow_root": true }' > /root/.bowerrc
-
-# Binary may be called nodejs instead of node
-RUN ln -s /usr/bin/nodejs /usr/bin/node
-
-# Define working directory.
-WORKDIR /home/jenkins
-
-CMD ["/bin/bash"]
-ENTRYPOINT []
+#install bower
+RUN npm set progress=false npm install -g bower
